@@ -1,0 +1,22 @@
+_repo: Story-of-the-Session-of-the-California-Legislature-of-1909_2896
+creator:
+  author:
+    agent_name: Hichborn, Franklin
+    birthdate: 1869
+    deathdate: 1963
+    gutenberg_agent_id: '1065'
+    url: http://www.gutenberg.org/2009/agents/1065
+description: ''
+gutenberg_issued: '2001-11-01'
+gutenberg_type: Text
+identifiers:
+  gutenberg: '2896'
+language: en
+publisher: Project Gutenberg
+rights: Public domain in the USA.
+rights_url: http://creativecommons.org/about/pdm
+subjects:
+- !lcsh 'California -- Politics and government'
+- !lcc 'F850.5'
+title: Story of the Session of the California Legislature of 1909
+url: http://www.gutenberg.org/ebooks/2896
