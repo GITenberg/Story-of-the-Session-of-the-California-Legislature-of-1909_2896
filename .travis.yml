@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: KG5Zb+sCf09QKcMSXEO/lsIVK9MPkSKb3AjBw1zbT+NxGUuo5suY3trPVrXw1rA0dkoD/e3Z3jdoghEZQCp2LZTpM9Fp1DeMMj0yHSPezWjqkreXYO5s+4PfDXpm/gJvP0lwyVor251N12z1hlWKUiN/zrCBd/C0E28SMojajc7zWThJJAwk6tlluV3mN0Q6CaVDtAR81EbfCcAVD3Vu0vak7trJI6eeK4eZwUg+CCG5+dMiqTXfwRQB84byxl8wCEzNOg5Q/dDycXn09rfhp27beqqxfwFmK7+akLKdariDyQpbPi3Zux9LI+KYoLssSH1tVmg/KBA5Rrb27qh7FXVDTmDLpcIU4+9YuWeqWU9iIVOM1Pn6jeP3r/jyWBQnqjLgQ9BJ677ulBqaP/djvtwhV6pRHzXSWeEkJcwwjCsaCtBdu2PpK6tXIInRBPHwz03bNJZYwRBAOgWHDMId8yM5vl656JQf3R4tlKXLhvWSrqMlYhvZd62SxEJX3ZBUvA71lSqymArLQwVpfMyI6CBcp+HAWuLh4+q+kzPEt/r5icwF6x4cw0EdGkmxah9+Q1dSZKrjRUqlZLQASj0nXnbT4ihR+cKEDqMSITtnowkbMZURXKPBMGLnyEtY21nolEe61Jqv2m7iAlycbcgs+C+xIvntIS9OSzINTAXoEkk=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/Story-of-the-Session-of-the-California-Legislature-of-1909_2896
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
